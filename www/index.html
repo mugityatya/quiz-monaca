@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+    	// 問題番号
+    	var no = 0;
+    	// 正解数
+    	var score = 0;
+    	// 単語リスト
+    	var wordList = [
+    		{
+    			japanese: "次のうち、その地層が古生代のものであることを示す化石はどれ？",
+          hinto:"ヒント:三葉虫,ビカリア,アンモナイト",
+    			english: "三葉虫"
+    		},
+    		{
+    			japanese: "陸上の「七種競技」を英語では何という？",
+          hinto:"ヒント:トライアスロン,ヘプタスロン,デカスロン",
+    			english: "ヘプタスロン"
+    		},
+    		{
+    			japanese: "100年前の1919年．．．その時の元号は？",
+          hinto:"ヒント:大正,昭和,明治",
+    			english: "大正"
+    		},
+    		{
+    			japanese: "エアコンの「コン」って、何の略？",
+          hinto:"ヒント:コンプレッサー,コンディショナー,コントローラー",
+    			english: "コンディショナー"
+    		},
+    		{
+    			japanese: "次のうち、熱エネルギーを経ることなくエネルギーを変換する発電方法で、二酸化炭素を発生させないものはどれ？",
+          hinto:"ヒント:原子力発電,火力発電,水力発電",
+    			english: "水力発電"
+    		},
+        {
+          japanese: "気体が液体になることを何という？",
+          hinto:"ヒント:昇華,凝固,凝縮",
+          english: "凝縮"
+        },
+        {
+          japanese:"次の臓器のうち、「有害な物質であるアンモニアを尿素に変えるはたらき」をするのはどれ？",
+          hinto:"ヒント:肝臓,膵臓,腎臓",
+          english:"肝臓"
+        },
+        {
+          japanese:"次のうち、「火山岩」に分類されるものはどれ？",
+          hinto:"ヒント:花こう岩,はんれい岩,安山岩",
+          english:"安山岩"
+        }
+    	];
+    	
+    	// 問題を表示する
+    	function showQuestion() {
+          if(no < wordList.length) {
+            //次の問題がある場合は、表示する
+            document.getElementById("question").innerHTML = wordList[no].japanese;
+            document.getElementById("hit").innerHTML = wordList[no].hinto;
+          }else{
+            //全問終了したら、成績を発表する
+            document.getElementById("question",).innerHTML = score + "/" + wordList.length;
+            document.getElementById("answerForm").style.display = "none";
+            if(score == wordList.length) {
+              //全問正解の場合
+              document.getElementById("resultMessage").innerHTML = 
+              "全問正解！よくできました！";
+              document.getElementById("resultImage").src = "gold.png";
+            } else if (score >= wordList.length * 0.6) {
+              //6割以上正解の場合
+              document.getElementById("resultMessage").innerHTML = 
+              "惜しい！あともう一歩でした！";
+              document.getElementById("resultImage").src = "silver.png";
+            } else {
+              //6割未満の場合
+              document.getElementById("resultMessage").innerHTML = 
+              "もう少し頑張りましょう。";
+              document.getElementById("resultImage").src = "bronze.png";
+                }
+              }
+            }
+
+    	
+    	// 入力された回答の正誤判定を行う
+    	function judge() {
+          var answer = document.getElementById("answer").value;
+          if(answer == wordList[no].english) {
+            alert("正解です！");
+            score++;
+          }else{
+            alert("残念！不正解です。");
+          }
+
+          //次の問題を表示
+          no++;
+          showQuestion();
+          var answer = document.getElementById("answer").value = "";
+    	}
+    </script>
+</head>
+<body onload="showQuestion()">
+	<h1 id="title">Question</h1>
+	<div id="question"></div>
+  <div id="hit"></div>
+	<div id="answerForm">
+		<input type="text" id="answer" placeholder="答えを入力">
+		<button onclick="judge()">OK</button>
+	</div>
+	<p id="resultMessage"></p>
+	<img id="resultImage" src="">
+</body>
+</html>
